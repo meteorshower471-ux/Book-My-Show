@@ -1,23 +1,25 @@
-# Use a Node.js base image
+# Use Node.js base image
 FROM node:20-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage caching
+# Copy package.json and package-lock.json first
 COPY package*.json ./
 
-# Install application dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application source code
+# Copy rest of the source code
 COPY . .
 
-# Build the application (if necessary, for React/Angular frontends)
-# RUN npm run build 
+# Ensure app is accessible externally
+ENV HOST=0.0.0.0
+ENV PORT=3000
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
-# The port the app runs on internally
+# Expose the app port
 EXPOSE 3000
 
-# Command to start the application
+# Start the app
 CMD ["npm", "start"]
