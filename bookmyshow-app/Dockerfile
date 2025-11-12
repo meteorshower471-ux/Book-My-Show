@@ -1,13 +1,6 @@
-# Stage 1: Build React app
-FROM node:18 AS build
+FROM node:18
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
 COPY . .
-RUN npm run build
-
-# Stage 2: Serve the built files using Nginx
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+RUN npm install
 EXPOSE 3000
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
