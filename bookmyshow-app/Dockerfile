@@ -1,6 +1,17 @@
 FROM node:18
+
 WORKDIR /app
-COPY . .
+
+COPY package*.json ./
 RUN npm install
+
+COPY . .
+
+# Ensure app listens on all interfaces
+ENV HOST=0.0.0.0
+ENV PORT=3000
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 EXPOSE 3000
+
 CMD ["npm", "start"]
